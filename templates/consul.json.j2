@@ -36,6 +36,9 @@
       "*": "{{ consul_dns_service_ttl }}"
     },
     "enable_truncate": {{ "true" if consul_dns_enable_truncate else "false" }},
+    {%- if (consul_udp_answer_limit is defined) %}
+    "udp_answer_limit": {{ consul_udp_answer_limit }},
+    {%- endif %}
     "only_passing": {{ "true" if consul_dns_only_passing else "false" }}
   },
 {% endif %}
@@ -146,6 +149,11 @@
         "Access-Control-Allow-Origin": "*"
   },
 {% endif %}
+{% if consul_skip_leave_on_interrupt is defined %}
+  "skip_leave_on_interrupt": {{ "true" if consul_skip_leave_on_interrupt else "false" }},
+{% endif %}
   "rejoin_after_leave": {{ "true" if consul_rejoin_after_leave else "false" }},
-  "leave_on_terminate": {{ "true" if consul_leave_on_terminate else "false" }}
+  "leave_on_terminate": {{ "true" if consul_leave_on_terminate else "false" }},
+  "disable_update_check": {{ "true" if consul_disable_update_check else "false" }}
+
 }

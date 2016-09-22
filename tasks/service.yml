@@ -1,4 +1,0 @@
-- service: >
-    name=consul
-    state="{{ consul_service_state }}"
-    enabled=yes

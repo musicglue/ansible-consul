@@ -18,7 +18,7 @@ consul_ui_server_port: 80
 consul_install_nginx: true
 consul_install_nginx_config: true
 consul_enable_nginx_config: true
-consul_service_state: restarted
+consul_service_state: started
 consul_manage_service: true
 
 consul_install_consul_cli: false
@@ -47,6 +47,9 @@ consul_dnsmasq_upstream_template: "resolv_dnsmasq.conf.j2"
 consul_kv_template: "consulkv.j2"
 consul_add_path_template: "consul.sh.j2"
 consul_config_template: "consul.json.j2"
+
+consul_reload_config_handler: reload consul config
+consul_restart_handler: restart consul
 
 consul_binary: consul
 
@@ -112,3 +115,10 @@ consul_node_name: "{{ inventory_hostname }}"
 # Set to true to enable hostname verification via TLS
 consul_verify_server_hostname: false
 consul_cors_support: false
+# keep undefined for default behavior (will depend on agent/server role starting with consul 0.7)
+# consul_skip_leave_on_interrupt: false
+consul_disable_update_check: false
+
+# Define Consul services to add to /etc/consul.d/*
+consul_services: {}
+consul_services_mode: 0640
