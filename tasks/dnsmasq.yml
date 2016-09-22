@@ -24,7 +24,6 @@
 - name: ensure dnsmasq configuration
   lineinfile:
     dest: "/etc/dnsmasq.conf"
-    regexp: "^conf-dir="
     line: "conf-dir=/etc/dnsmasq.d"
     state: present
 
@@ -45,7 +44,6 @@
 
 - name: configure dnsmasq to listen on interface(s)
   lineinfile:
-    regexp: "^interface={{ item }}"
     line: "interface={{ item }}"
     dest: /etc/dnsmasq.conf
   with_items:
@@ -53,7 +51,6 @@
 
 - name: configure dnsmasq to disable DHCP and TFTP
   lineinfile:
-    regexp: "^no-dhcp-interface={{ item }}"
     line: "no-dhcp-interface={{ item }}"
     dest: /etc/dnsmasq.conf
   with_items:
@@ -82,4 +79,3 @@
   notify:
     - restart dnsmasq
 
-- pause: minutes=1
