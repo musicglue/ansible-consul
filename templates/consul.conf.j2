@@ -11,7 +11,7 @@ respawn limit 10 10
 
 script
   export GOMAXPROCS="$(nproc)"
-  exec consul agent -config-file={{ consul_config_file }} -config-dir={{ consul_config_dir }}
+  exec {{ consul_home }}/bin/consul agent -config-file={{ consul_config_file }} -config-dir={{ consul_config_dir }}
 end script
 
 {% if consul_leave_on_terminate -%}
