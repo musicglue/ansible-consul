@@ -3,28 +3,20 @@ description "Consul Agent"
 start on (local-filesystems and net-device-up IFACE=!lo)
 stop on runlevel [016]
 
-respawn
-
 setuid consul
 setgid consul
 
+respawn
+respawn limit 10 10
+
 script
-  export GOMAXPROCS=`nproc`
-  BIND=`hostname -i | awk '{print $2}'`
-  CLIENT_BIND=$BIND
-  exec consul agent \
-    {% if consul_dynamic_bind %}-bind=$BIND \{% endif %}
-    {% if consul_client_address_bind %}-client=$CLIENT_BIND \{% endif %}
-    -config-file={{ consul_config_file }} \
-    -config-dir={{ consul_config_dir }}
+  export GOMAXPROCS="$(nproc)"
+  exec consul agent -config-file={{ consul_config_file }} -config-dir={{ consul_config_dir }}
 end script
 
 {% if consul_leave_on_terminate -%}
 pre-stop exec {{ consul_home }}/bin/consul leave
 {% endif -%}
-
-respawn
-respawn limit 10 10
 
 # Avoid Upstart re-spawning the process upon `consul leave`
 normal exit 0 INT
