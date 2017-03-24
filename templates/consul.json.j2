@@ -53,6 +53,11 @@
   "node_name": "{{ consul_node_name }}",
 {% endif %}
   "server": {{ "true" if consul_is_server else "false" }},
+{% if consul_is_server and (consul_raft_multiplier is defined) %}
+  "performance": {
+    "raft_multiplier": {{consul_raft_multiplier}}
+  },
+{% endif %}
 {% if consul_client_address_bind and consul_client_address is defined and consul_client_address is not none %}
   "client_addr": "{{ consul_client_address }}",
   "addresses" : {
