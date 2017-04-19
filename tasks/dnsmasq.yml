@@ -79,3 +79,10 @@
   notify:
     - restart dnsmasq
 
+- name: configure dnsmasq greedy binding
+  lineinfile:
+    line: "bind-interfaces"
+    dest: /etc/dnsmasq.conf
+    state: "{{ (consul_dnsmasq.greedy_bind|default(false)) | ternary('absent', 'present') }}"
+  notify:
+    - restart dnsmasq
